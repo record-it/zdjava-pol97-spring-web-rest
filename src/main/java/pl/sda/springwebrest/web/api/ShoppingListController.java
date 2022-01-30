@@ -20,7 +20,7 @@ import java.util.Map;
 public class ShoppingListController {
     private final ShoppingListService service;
 
-    public ShoppingListController(@Qualifier("memoryService") ShoppingListService service) {
+    public ShoppingListController(@Qualifier("jpaService") ShoppingListService service) {
         this.service = service;
     }
 
