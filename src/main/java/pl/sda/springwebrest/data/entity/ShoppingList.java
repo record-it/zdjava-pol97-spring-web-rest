@@ -27,6 +27,6 @@ public class ShoppingList {
 
     private String owner;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Item> items = new HashSet<>();
 }

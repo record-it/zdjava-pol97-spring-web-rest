@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.sda.springwebrest.business.service.ShoppingListService;
+import pl.sda.springwebrest.data.dto.ShoppingListDto;
 import pl.sda.springwebrest.data.entity.ShoppingList;
 
 import java.net.URI;
@@ -45,9 +46,10 @@ public class ShoppingListController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ShoppingList> add(@RequestBody ShoppingList list){
-        list.setId(4);
-        return ResponseEntity.created(URI.create("/api/shoppinglists/" + list.getId())).build();
+    public ResponseEntity<ShoppingList> add(@RequestBody ShoppingListDto list){
+        final ShoppingList save = service.save(list);
+        return ResponseEntity.created(URI.create("/api/shoppinglists/" + save.getId()))
+                .body(save);
     }
 
 }

@@ -1,8 +1,10 @@
 package pl.sda.springwebrest.business.service;
 
 import org.springframework.stereotype.Service;
+import pl.sda.springwebrest.data.dto.ShoppingListDto;
 import pl.sda.springwebrest.data.entity.Item;
 import pl.sda.springwebrest.data.entity.ShoppingList;
+import pl.sda.springwebrest.data.mapper.ShoppingListMapper;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -64,5 +66,15 @@ public class MemoryShoppingListService implements ShoppingListService {
     @Override
     public Optional<ShoppingList> findById(long id) {
         return Optional.ofNullable(lists.get(id));
+    }
+
+    @Override
+    public ShoppingList save(ShoppingListDto dto) {
+        final ShoppingList shoppingList = ShoppingListMapper.mapToEntity(dto);
+        shoppingList.getItems().forEach(item -> item.setId(nextItemId()));
+        shoppingList.setId(nextListId());
+        shoppingList.setCreated(LocalDate.now());
+        lists.put(shoppingList.getId(),shoppingList);
+        return shoppingList;
     }
 }
