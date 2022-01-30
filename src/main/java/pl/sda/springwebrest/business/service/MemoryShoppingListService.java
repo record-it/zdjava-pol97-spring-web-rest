@@ -77,4 +77,24 @@ public class MemoryShoppingListService implements ShoppingListService {
         lists.put(shoppingList.getId(),shoppingList);
         return shoppingList;
     }
+
+    @Override
+    public boolean delete(long id) {
+        return lists.remove(id) != null;
+    }
+
+    @Override
+    public ShoppingList update(ShoppingListDto dto, long id) {
+        ShoppingList shoppingList = lists.get(id);
+        if (shoppingList == null){
+            return null;
+        }
+        LocalDate created = shoppingList.getCreated();
+        shoppingList = ShoppingListMapper.mapToEntity(dto);
+        shoppingList.getItems().forEach(item -> item.setId(nextItemId()));
+        shoppingList.setCreated(created);
+        shoppingList.setId(id);
+        lists.put(id, shoppingList);
+        return  shoppingList;
+    }
 }

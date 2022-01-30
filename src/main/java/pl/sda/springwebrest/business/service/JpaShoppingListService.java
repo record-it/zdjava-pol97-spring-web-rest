@@ -33,4 +33,14 @@ public class JpaShoppingListService implements ShoppingListService{
     public ShoppingList save(ShoppingListDto dto) {
         return null;
     }
+
+    @Override
+    public boolean delete(long id) {
+        return false;
+    }
+
+    @Override
+    public ShoppingList update(ShoppingListDto dto, long id) {
+        return null;
+    }
 }

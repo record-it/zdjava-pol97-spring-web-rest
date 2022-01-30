@@ -52,4 +52,21 @@ public class ShoppingListController {
                 .body(save);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ShoppingList> delete(@PathVariable long id){
+        if (service.delete(id)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ShoppingList> update(@RequestBody ShoppingListDto dto, @PathVariable long id){
+        return service.update(dto, id) != null
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
+    }
+
+
 }

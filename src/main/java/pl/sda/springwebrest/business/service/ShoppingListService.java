@@ -13,4 +13,8 @@ public interface ShoppingListService {
     Optional<ShoppingList> findById(long id);
 
     ShoppingList save(ShoppingListDto dto);
+
+    boolean delete(long id);
+
+    ShoppingList update(ShoppingListDto dto, long id);
 }
