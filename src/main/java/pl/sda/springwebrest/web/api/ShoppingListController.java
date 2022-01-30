@@ -2,11 +2,14 @@ package pl.sda.springwebrest.web.api;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.sda.springwebrest.business.service.ShoppingListService;
 import pl.sda.springwebrest.data.dto.ShoppingListDto;
+import pl.sda.springwebrest.data.entity.Item;
 import pl.sda.springwebrest.data.entity.ShoppingList;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +49,7 @@ public class ShoppingListController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ShoppingList> add(@RequestBody ShoppingListDto list){
+    public ResponseEntity<ShoppingList> add(@Valid @RequestBody ShoppingListDto list){
         final ShoppingList save = service.save(list);
         return ResponseEntity.created(URI.create("/api/shoppinglists/" + save.getId()))
                 .body(save);
@@ -60,13 +63,19 @@ public class ShoppingListController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    //TODO zmień metodę update w serwisie, aby zmieniała tylko name i owner w liscie
     @PutMapping("/{id}")
-    public ResponseEntity<ShoppingList> update(@RequestBody ShoppingListDto dto, @PathVariable long id){
+    public ResponseEntity<ShoppingList> update(@Valid @RequestBody ShoppingListDto dto, @PathVariable long id){
         return service.update(dto, id) != null
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 
+
+    @PutMapping("/{id}/items")
+    public ResponseEntity<List<Item>> updateItems(){
+        //TODO zdefiniuj metodę wykonująca update zbiór składników listy
+        return ResponseEntity.badRequest().build();
+    }
 
 }
