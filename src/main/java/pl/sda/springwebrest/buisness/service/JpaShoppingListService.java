@@ -8,7 +8,7 @@ import pl.sda.springwebrest.data.repository.ShoppingListRepository;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service("jpaService")
 public class JpaShoppingListService implements ShoppingListService{
     private final ShoppingListRepository shoppingListRepository;
     private final ItemRepository itemRepository;

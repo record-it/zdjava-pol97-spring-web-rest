@@ -1,25 +1,59 @@
 package pl.sda.springwebrest.buisness.service;
 
 import org.springframework.stereotype.Service;
+import pl.sda.springwebrest.data.entity.Item;
 import pl.sda.springwebrest.data.entity.ShoppingList;
 
 import java.time.LocalDate;
 import java.util.*;
 
-@Service
-public class MemoryShoppingListService implements ShoppingListService{
+@Service("memoryService")
+public class MemoryShoppingListService implements ShoppingListService {
     private Map<Long, ShoppingList> lists = new HashMap<>();
+    private long listId = 0;
+    private long itemId = 0;
+
+    private long nextListId() {
+        return ++listId;
+    }
+
+    private long nextItemId() {
+        return ++itemId;
+    }
 
     public MemoryShoppingListService() {
-        lists.put(1L, ShoppingList.builder()
-                .id(1L)
-                        .name("Moja lista")
-                        .created(LocalDate.now())
-                        .owner("Karol")
-
+        lists.put(nextListId(), ShoppingList.builder()
+                .id(listId)
+                .name("Moja lista")
+                .created(LocalDate.now())
+                .items(new HashSet<>())
+                .owner("Karol")
                 .build()
         );
-        
+        lists.get(listId).getItems().add(Item.builder()
+                .id(nextItemId())
+                .name("mleko 1 L tłuste")
+                .build());
+        lists.get(listId).getItems().add(Item.builder()
+                .id(nextItemId())
+                .name("bułki wieloziarniste, 10 sztuk")
+                .build());
+        lists.put(nextListId(), ShoppingList.builder()
+                .id(listId)
+                .name("zakupy")
+                .created(LocalDate.now())
+                .items(new HashSet<>())
+                .owner("Ania")
+                .build()
+        );
+        lists.get(listId).getItems().add(Item.builder()
+                .id(nextItemId())
+                .name("masło 200 g")
+                .build());
+        lists.get(listId).getItems().add(Item.builder()
+                .id(nextItemId())
+                .name("chleb razowy")
+                .build());
     }
 
     @Override

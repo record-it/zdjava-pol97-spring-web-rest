@@ -1,17 +1,27 @@
 package pl.sda.springwebrest.web.api;
 
-import org.springframework.stereotype.Controller;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import pl.sda.springwebrest.buisness.service.ShoppingListService;
+import pl.sda.springwebrest.data.entity.ShoppingList;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/shoppinglists")
 public class ShoppingListController {
+    private final ShoppingListService service;
 
-    @RequestMapping("/api/examples/dynamic")
+    public ShoppingListController(@Qualifier("memoryService") ShoppingListService service) {
+        this.service = service;
+    }
+
+    @RequestMapping("/examples/dynamic")
     public Map<String, Object> get(){
         Map<String, Object> list = new HashMap<>();
         list.put("mleko", "2 litry");
@@ -25,5 +35,8 @@ public class ShoppingListController {
         return list;
     }
 
-
+    @GetMapping("")
+    public List<ShoppingList> getAll(){
+        return service.findAll();
+    }
 }
