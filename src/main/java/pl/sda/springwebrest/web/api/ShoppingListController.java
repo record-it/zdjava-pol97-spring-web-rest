@@ -1,13 +1,12 @@
 package pl.sda.springwebrest.web.api;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pl.sda.springwebrest.buisness.service.ShoppingListService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pl.sda.springwebrest.business.service.ShoppingListService;
 import pl.sda.springwebrest.data.entity.ShoppingList;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,4 +38,16 @@ public class ShoppingListController {
     public List<ShoppingList> getAll(){
         return service.findAll();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ShoppingList> get(@PathVariable long id){
+        return ResponseEntity.of(service.findById(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<ShoppingList> add(@RequestBody ShoppingList list){
+        list.setId(4);
+        return ResponseEntity.created(URI.create("/api/shoppinglists/" + list.getId())).build();
+    }
+
 }

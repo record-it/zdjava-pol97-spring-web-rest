@@ -1,4 +1,4 @@
-package pl.sda.springwebrest.buisness.service;
+package pl.sda.springwebrest.business.service;
 
 import pl.sda.springwebrest.data.entity.ShoppingList;
 
