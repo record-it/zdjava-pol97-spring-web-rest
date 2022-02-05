@@ -1,0 +1,7 @@
+server:
+  port: 9000
+  servlet:
+    encoding:
+      charset: UTF-8
+app:
+  theme: zima

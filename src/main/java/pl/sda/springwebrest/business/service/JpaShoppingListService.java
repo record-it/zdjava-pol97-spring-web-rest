@@ -39,7 +39,9 @@ public class JpaShoppingListService implements ShoppingListService{
     @Transactional
     public ShoppingList save(ShoppingListDto dto) {
         final ShoppingList shoppingList = ShoppingListMapper.mapToEntity(dto);
-        final Set<Item> items = shoppingList.getItems().stream().map(itemRepository::save).collect(Collectors.toSet());
+        final Set<Item> items = shoppingList.getItems().stream()
+                .peek(item -> item.setId(0))
+                .map(itemRepository::save).collect(Collectors.toSet());
         shoppingList.setItems(items);
         return shoppingListRepository.save(shoppingList);
     }

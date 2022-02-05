@@ -2,9 +2,9 @@ package pl.sda.springwebrest.web.api;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.sda.springwebrest.business.service.ShoppingListService;
+import pl.sda.springwebrest.config.SecurityRestConfiguration;
 import pl.sda.springwebrest.data.dto.ShoppingListDto;
 import pl.sda.springwebrest.data.entity.Item;
 import pl.sda.springwebrest.data.entity.ShoppingList;
@@ -18,9 +18,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/shoppinglists")
 public class ShoppingListController {
+
+    private final SecurityRestConfiguration configuration;
+
     private final ShoppingListService service;
 
-    public ShoppingListController(@Qualifier("jpaService") ShoppingListService service) {
+    public ShoppingListController(SecurityRestConfiguration configuration, @Qualifier("jpaService") ShoppingListService service) {
+        this.configuration = configuration;
         this.service = service;
     }
 
@@ -78,4 +82,11 @@ public class ShoppingListController {
         return ResponseEntity.badRequest().build();
     }
 
+    @GetMapping("/config")
+    public ResponseEntity<Map<String, Object>> config(){
+        Map<String, Object> result = new HashMap<>();
+        result.put("page", configuration.getPage());
+        result.put("theme", configuration.getTheme());
+        return ResponseEntity.ok(result);
+    }
 }
